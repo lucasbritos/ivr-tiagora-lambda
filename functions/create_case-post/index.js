@@ -31,23 +31,23 @@ var Customer = vogels.define('Customer', {
 });
 
 exports.handler = async (event) => {
-  const customer = event.queryParams
-  const from = event.data.From;
-  const voiceResponse = new VoiceResponse();
+  return new Promise((resolve,reject)=>{
+    const customer = event.queryParams
+    const from = event.data.From;
+    const voiceResponse = new VoiceResponse();
+  
 
-  return openCase(from,customer).then(setUrgency(customer)).then(()=>{
-    voiceResponse.say("Su requerimiento ha sido creado con éxito. En lapso de 10 minutos será contactado por un operador. Muchas gracias.",{voice: 'alice', language: 'es-MX'})
-    voiceResponse.hangup()
-    return {body:voiceResponse.toString()}
-  })    
-  .catch(()=>{
-    throw new Error({body:""})
+    openCase(from,customer).then(setUrgency(customer)).then(()=>{
+      voiceResponse.say("Su requerimiento ha sido creado con éxito. En lapso de 10 minutos será contactado por un operador. Muchas gracias.",{voice: 'alice', language: 'es-MX'})
+      voiceResponse.hangup()
+      resolve({body:voiceResponse.toString()})
+    })
   })
 };
 
-function openCase(from,customer){
+const openCase = async (from,customer) => {
   return new Promise((resolve,reject)=>{
-    const auth = "Basic " + new Buffer(customer.user+ "/token:" + customer.token).toString("base64");
+    const auth = "Basic " + new Buffer.from(customer.user+ "/token:" + customer.token).toString("base64");
     zenDeskBody.request.comment.body = "From IVR:"+ "From: " + from + " Call to: " + (customer.contact)
     request(
       {
@@ -56,16 +56,16 @@ function openCase(from,customer){
         headers : { "Authorization" : auth },
         json: zenDeskBody
       },(err, res, body)=>{
-        if (err || res.statusCode != 201) { return reject() }
+        if (err || res.statusCode != 201) { return reject(err) }
         resolve()
     }) 
   })
 }
 
-function setUrgency(customer){
+const setUrgency = async (customer)=>{
   return new Promise((resolve,reject)=>{
-    Customer.update({cod:customer.cod,urgency:true}, function (err, res) {
-      if (err) { return reject() }
+    Customer.update({cod:parseInt(customer.cod),urgency:true}, function (err, res) {
+      if (err) { return reject(err) }
       resolve()
     
     })

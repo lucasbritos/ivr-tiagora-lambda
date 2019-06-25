@@ -49,7 +49,7 @@ let saveLog = (to,cod)=>{
       to: to,
       cod: cod,
       timestamp: new Date().toISOString(),
-      type: "Confirmation"
+      type: "confirmation"
     }
     Call.create(call, function (err, call) {
       if (err) return reject(err)

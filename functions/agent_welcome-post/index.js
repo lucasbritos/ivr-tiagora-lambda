@@ -12,7 +12,7 @@ exports.handler = async (event) => {
   gather.say(
       'Este es un mensaje automático de soporte Tiágora. ' +
       'Un cliente ha abierto un caso urgente que necesita atención inmediata.   ' +
-      'Diríjase al sitio soporte punto tiágora punto com. Presione cualquier número para confirmar recepción. Muchas Gracias.           ', 
+      'Diríjase al sitio tiágora punto zendesk punto com. Presione cualquier número para confirmar recepción. Muchas Gracias.           ', 
       {loop: 3,voice: 'alice', language: 'es-MX'},
   );
 return {body:voiceResponse.toString()}

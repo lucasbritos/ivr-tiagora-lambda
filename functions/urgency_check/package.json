@@ -9,7 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "twilio": "^3.31.0",
-    "vogels": "^2.2.0"
+    "twilio": "^3.31.0"
   }
 }

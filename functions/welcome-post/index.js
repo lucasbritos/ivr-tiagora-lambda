@@ -11,7 +11,7 @@ exports.handler = async (event) => {
   gather.say(
       'Gracias por comunicarse con Soporte Tiágora. ' +
       'Presione 1 por apertura de casos urgentes.  ' +
-      'Para seguimiento de casos y apertura de casos no urgentes, diríjase al sitio soporte punto tiágora punto com.            ',
+      'Para apertura de casos no urgentes, diríjase al sitio tiágora punto zendesk punto com.            ',
       {loop: 3,voice: 'alice', language: 'es-MX'},
   );
   return {body:voiceResponse.toString()}
